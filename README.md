@@ -1,5 +1,5 @@
 # VolleyBall
 Unity project.
-Socket
-REST API
-JSON
+Socket.
+REST API.
+JSON.
