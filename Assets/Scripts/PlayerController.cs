@@ -208,6 +208,11 @@ public class PlayerController : MonoBehaviour
             PlayerParam.Player2.Pos.X = -7;
             PlayerParam.Player2.Pos.Y = -3.3F;
         }
+
+        if ( scene.name == "Client" )
+        {
+            BallTransform.position = new Vector2(-BallTransform.position.x, BallTransform.position.y);
+        }
         
     }
 
@@ -216,7 +221,7 @@ public class PlayerController : MonoBehaviour
     {
         // if ()
 
-        if ( PlayerParam.Status_Update == true ) Time.timeScale = 1;
+        if ( PlayerParam.Connect_Status == true ) Time.timeScale = 1;
 
         if ( scene.name == "Server" )
         {
@@ -224,7 +229,7 @@ public class PlayerController : MonoBehaviour
         }
         else if ( scene.name == "Client" )
         {
-            BallPosUpdate();
+            // BallPosUpdate();
         }
         // if ( PlayerParam.Connect_Status == false ) return;
         

@@ -9,10 +9,6 @@ using TMPro;
 
 public class PokeAPIController : MonoBehaviour
 {
-    public GameObject player1, player2;
-    private bool player2_update;
-    public RawImage player1Role;
-
     public RawImage pokeRawImage;
     public TextMeshProUGUI pokeNameText, pokeNumText;
     public TextMeshProUGUI[] pokeTypeTextArray;
@@ -33,26 +29,24 @@ public class PokeAPIController : MonoBehaviour
             pokeTypeText.text = "";
         }
 
-        // Start Play
-        player2_update = false;
-        StartCoroutine(GetPokemonAtIndex(1, PlayerParam.Player1.Index));
         // OnButtonRandomPokemon();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ( player2_update == false && PlayerParam.Status_Update == true )
-        {
-            player2_update = true;
-            StartCoroutine(GetPokemonAtIndex(2, PlayerParam.Player2.Index));
-        }
+
     }
 
     
     public void OnButtonRandomPokemon()
     {
         int randomPokeIndex = Random.Range(1, 888); // Min: inclusive, Max: exclusive.
+
+        // Ting
+        PlayerParam.Server.Player_Index = randomPokeIndex;
+        PlayerParam.Client.Player_Index = randomPokeIndex;
+        // GameObject.Find("PlayerIndex").GetComponent<Text>().text = randomPokeIndex.ToString();
 
         pokeRawImage.texture = Texture2D.blackTexture;
 
@@ -64,10 +58,10 @@ public class PokeAPIController : MonoBehaviour
             pokeTypeText.text = "";
         }
 
-        StartCoroutine(GetPokemonAtIndex(1, randomPokeIndex));
+        StartCoroutine(GetPokemonAtIndex(randomPokeIndex));
     }
 
-    IEnumerator GetPokemonAtIndex(int player, int pokemonIndex)
+    IEnumerator GetPokemonAtIndex(int pokemonIndex)
     {
         // Get Pokemon Info.
 
@@ -113,24 +107,14 @@ public class PokeAPIController : MonoBehaviour
 
         pokeRawImage.texture = DownloadHandlerTexture.GetContent(pokeSpriteRequest);
         pokeRawImage.texture.filterMode = FilterMode.Point;
-
-
-        if ( player == 1 )
-        {
-            player1.GetComponent<SpriteRenderer>().sprite = Sprite.Create(DownloadHandlerTexture.GetContent(pokeSpriteRequest), new Rect(0, 0, pokeRawImage.texture.width, pokeRawImage.texture.height), new Vector2(0.5F, 0.5F));
-        }
-        else if ( player == 2 )
-        {
-            // player2.GetComponent<SpriteRenderer>().sprite = Sprite.Create(DownloadHandlerTexture.GetContent(pokeSpriteRequest), new Rect(0, 0, pokeRawImage.texture.width, pokeRawImage.texture.height), Vector2.zero);
-            player2.GetComponent<SpriteRenderer>().sprite = Sprite.Create(DownloadHandlerTexture.GetContent(pokeSpriteRequest), new Rect(0, 0, pokeRawImage.texture.width, pokeRawImage.texture.height), new Vector2(0.5F, 0.5F));
-        }
         
 
         pokeNameText.text = CapitalizeFirstLetter(pokeName);
 
         for ( int i = 0; i < pokeTypeNames.Length; i++ )
         {
-            pokeTypeTextArray[i].text = CapitalizeFirstLetter(pokeTypeNames[i]);
+            // Ting
+            // pokeTypeTextArray[i].text = CapitalizeFirstLetter(pokeTypeNames[i]);
         }
 
     }

@@ -16,13 +16,15 @@ public class Starting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if ( Input.GetKeyDown("escape") ) Back_to_GameStart();
     }
 
     public void GetRandomValue()
     {
-        PlayerParam.Player1.Index = Random.Range(1, 888); // Min: inclusive, Max: exclusive.
-        GameObject.Find("PlayerIndex").GetComponent<Text>().text = PlayerParam.Player1.Index.ToString();
+        int index = Random.Range(1, 888); // Min: inclusive, Max: exclusive.
+        PlayerParam.Server.Player_Index = index;
+        PlayerParam.Client.Player_Index = index;
+        GameObject.Find("PlayerIndex").GetComponent<Text>().text = index.ToString();
     }
 
     public void ChooseServer()
@@ -37,5 +39,10 @@ public class Starting : MonoBehaviour
         PlayerParam.ipAddress = GameObject.Find("ipAddress").GetComponent<InputField>().text;
         // Debug.Log(PlayerParam.ipAddress);
         SceneManager.LoadScene("Client");
+    }
+
+    public void Back_to_GameStart()
+    {
+        SceneManager.LoadScene("Starting");
     }
 }
